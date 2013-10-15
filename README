@@ -1,0 +1,40 @@
+Generate and compare graphical representations of protein complexes
+
+(c) Tim Nugent 2013
+
+This tool parses a protein databank (PDB) file and generates a graph where chains form vertices and inter-chain contacts (comprised of >=10 contacting residues) form edges. The graph is then layout according to a number of force directed algorithms. If two PDB files are passed, a custom maximum common subgraph algorithm is run which attempts to identify the common patterns of inter-chain contacts between the two complexes. Another function is the detection of internal symmetry. Once complete, output files are written in SVG format.
+
+Compiling
+---------
+
+This tool is built on graphviz and boost libraries. For graphiviz, use an up-to-date version i.e. on Ubuntu use this ppa:
+
+ppa:gviz-adm/graphviz-dev
+
+Otherwise, there should be recent packages available here:
+
+http://graphviz.org/Download..php
+
+A number of boost libraries and headers are required - I would recommend installing them all:
+
+libboost-all-dev
+
+Then, just run 'make' to build, and optionally 'make test'.
+
+Run
+---
+
+Compare two membrane protein complexes (-a and -b flags pass the topologies). Red vertices are globular chains, blue ones are membrane chains. Each vertex will have a different shape depending on its sequence identity (uses Smith-Waterman). Perform a symmetry search, and layout graphs using the sfdp algorithm:
+
+bin/gengraph -s 1 -l 2 -a B:1,C:4,D:1,F:4,H:1,I:4 -b C:8,D:1,E:1,G:1,J:1,K:1,N:8,O:1,P:1,R:1,U:1,V:1 examples/1kqf.pdb examples/1l0l.pdb
+
+Generate a graph from a single PDB file, processing membrane chains only, searching for symmetry and laying out the graph using the sfdp algorithm:
+
+bin/gengraph -s 1 -l 2 -t 1 -a A:11,B:11,F:1,G:1,H:1,I:2,J:3,K:1,L:1,M:11,N:11,R:1,S:1,T:1,U:2,V:3,W:1,Y:1,X:11,Z:11,4:1,5:1,6:1,7:2,8:3,9:1,a:1 examples/3pcq.pdb
+
+Bugs/Comments/Suggestions
+=========================
+
+t.nugent@cs.ucl.ac.uk
+
+
