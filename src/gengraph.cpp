@@ -17,7 +17,6 @@
 #include <boost/regex.hpp>
 #include <boost/foreach.hpp>
 #include <boost/tokenizer.hpp>
-#include <boost/tokenizer.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/graph/graphml.hpp>
@@ -331,42 +330,42 @@ void PDB::build_graph(const double dist, const int threshold, const double scale
 	for(int i = 0; i < get_chain_count(); i++){
 		chain_to_num[get_chains()[i]] = i;
 		num_to_chain[i] = get_chains()[i];
-        VertexDescriptor vd = boost::add_vertex(g);
-        vertexIdPropertyMap[vd] = i;
-        vertexNamePropertyMap[vd] = get_chains()[i];
+        	VertexDescriptor vd = boost::add_vertex(g);
+        	vertexIdPropertyMap[vd] = i;
+        	vertexNamePropertyMap[vd] = get_chains()[i];
 
-        // Graphviz
-        n = agnode(gv, (char*)get_chains()[i].c_str(), 1);
-        agsafeset(n, (char*)"name", (char*)get_chains()[i].c_str(), (char*)"");
+        	// Graphviz
+        	n = agnode(gv, (char*)get_chains()[i].c_str(), 1);
+        	agsafeset(n, (char*)"name", (char*)get_chains()[i].c_str(), (char*)"");
 
-        //cout << shapes[homology_cluster_id[get_chains()[i]]] << endl;
+        	//cout << shapes[homology_cluster_id[get_chains()[i]]] << endl;
 
-        agsafeset(n, (char*)"shape", (char*)shapes[homology_cluster_id[get_chains()[i]]], (char*)"");
-        //agsafeset(n, (char*)"shape", (char*)"circle", (char*)"");
-        agsafeset(n, (char*)"fontcolor", (char*)"white", (char*)"");
-        agsafeset(n, (char*)"fontname", (char*)"helvetica", (char*)"");
-        agsafeset(n, (char*)"color", (char*)"grey", (char*)"");
-        agsafeset(n, (char*)"fixedsize", (char*)"true", (char*)"");
+        	agsafeset(n, (char*)"shape", (char*)shapes[homology_cluster_id[get_chains()[i]]], (char*)"");
+        	//agsafeset(n, (char*)"shape", (char*)"circle", (char*)"");
+        	agsafeset(n, (char*)"fontcolor", (char*)"white", (char*)"");
+        	agsafeset(n, (char*)"fontname", (char*)"helvetica", (char*)"");
+        	agsafeset(n, (char*)"color", (char*)"grey", (char*)"");
+        	agsafeset(n, (char*)"fixedsize", (char*)"true", (char*)"");
 
-        vertexHomologyGroupMap[vd] = homology_cluster_id[get_chains()[i]];
+        	vertexHomologyGroupMap[vd] = homology_cluster_id[get_chains()[i]];
 
-        if(tm_chains.find(get_chains()[i]) != tm_chains.end()){
-        	vertexLocationPropertyMap[vd] = "membrane";
-        	vertexTopologyPropertyMap[vd] = tm_chains[get_chains()[i]];
-        	agsafeset(n, (char*)"style", (char*)"radial", (char*)"");
-        	agsafeset(n, (char*)"fillcolor", (char*)"mediumblue;0.1:steelblue;0.9", (char*)"");
-        	string size = to_string(0.5+scale*tm_chains[get_chains()[i]]);
-        	agsafeset(n, (char*)"width", (char*)size.c_str(), (char*)"");
-        	agsafeset(n, (char*)"height", (char*)size.c_str(), (char*)"");
-        }else{
-        	vertexLocationPropertyMap[vd] = "globular";	
-        	vertexTopologyPropertyMap[vd] = 0;
-        	agsafeset(n, (char*)"style", (char*)"radial", (char*)"");
-        	agsafeset(n, (char*)"fillcolor", (char*)"red;0.9:firebrick;0.1", (char*)"");
-        	agsafeset(n, (char*)"width", (char*)to_string(0.5).c_str(), (char*)"");
-        	agsafeset(n, (char*)"height", (char*)to_string(0.5).c_str(), (char*)"");
-        }
-        gv_nodes.push_back(n);
+        	if(tm_chains.find(get_chains()[i]) != tm_chains.end()){
+        		vertexLocationPropertyMap[vd] = "membrane";
+        		vertexTopologyPropertyMap[vd] = tm_chains[get_chains()[i]];
+        		agsafeset(n, (char*)"style", (char*)"radial", (char*)"");
+        		agsafeset(n, (char*)"fillcolor", (char*)"mediumblue;0.1:steelblue;0.9", (char*)"");
+        		string size = to_string(0.5+scale*tm_chains[get_chains()[i]]);
+        		agsafeset(n, (char*)"width", (char*)size.c_str(), (char*)"");
+        		agsafeset(n, (char*)"height", (char*)size.c_str(), (char*)"");
+        	}else{
+        		vertexLocationPropertyMap[vd] = "globular";	
+        		vertexTopologyPropertyMap[vd] = 0;
+        		agsafeset(n, (char*)"style", (char*)"radial", (char*)"");
+        		agsafeset(n, (char*)"fillcolor", (char*)"red;0.9:firebrick;0.1", (char*)"");
+        		agsafeset(n, (char*)"width", (char*)to_string(0.5).c_str(), (char*)"");
+        		agsafeset(n, (char*)"height", (char*)to_string(0.5).c_str(), (char*)"");
+        	}
+        	gv_nodes.push_back(n);
 	}
 	cout << num_vertices(g) << " vertices added." << endl;
 	
@@ -408,7 +407,7 @@ void PDB::circle_layout(){
 	//cout << "In circle..." << endl;
 	PositionMap positionMap = boost::get(&VertexProperties::point, g);
 
-    boost::circle_graph_layout(g, positionMap, 300);
+    	boost::circle_graph_layout(g, positionMap, 300);
     
 	int x = 0;
 	boost::graph_traits<Graph>::vertex_iterator i, end;
@@ -434,21 +433,21 @@ void PDB::circle_layout(){
 
 void PDB::kamada_layout(){
 
-    PositionMap positionMap = boost::get(&VertexProperties::point, g);
-    WeightPropertyMap weightPropertyMap = boost::get(edge_weight_t(), g);
+	PositionMap positionMap = boost::get(&VertexProperties::point, g);
+	WeightPropertyMap weightPropertyMap = boost::get(edge_weight_t(), g);
 
-    boost::circle_graph_layout(g, positionMap, 100);
-    double tolerance = 0.00001;
-    int iterations = 100000;
-    layout_and_iteration_tolerance<double> tol(tolerance,iterations);
-    //cout << "Calling Kamada Kawai spring layout..." << endl;
-    bool retval = boost::kamada_kawai_spring_layout(g, positionMap, weightPropertyMap, 
+	boost::circle_graph_layout(g, positionMap, 100);
+	double tolerance = 0.00001;
+	int iterations = 100000;
+	layout_and_iteration_tolerance<double> tol(tolerance,iterations);
+	//cout << "Calling Kamada Kawai spring layout..." << endl;
+	bool retval = boost::kamada_kawai_spring_layout(g, positionMap, weightPropertyMap, 
                                                        boost::square_topology<>(), boost::side_length<double>(10),     
                                                        tol, 1, vertexIdPropertyMap);
-    if (!retval){
-        cout << "kamada_kawai_spring_layout returned false!" << endl;
-        return;
-    }
+    	if (!retval){
+        	cout << "kamada_kawai_spring_layout returned false!" << endl;
+        	return;
+    	}
     
 	int x = 0;
 	boost::graph_traits<Graph>::vertex_iterator i, end;
@@ -471,76 +470,76 @@ void PDB::kamada_layout(){
   	// http://levelfour.googlecode.com/svn/branches/dev/vd2/Components/D2M/sandratest/source/TestPlotter.h
     // https://code.google.com/p/levelfour/source/browse/branches/dev/vd2/Components/D2M/sandratest/kamada_layout_example.cpp
   
-    dp.property("Label", boost::get(&VertexProperties::name, g));
-    dp.property("Location", boost::get(&VertexProperties::location, g));
-    dp.property("Topology", boost::get(&VertexProperties::topology, g));
-    dp.property("X", boost::get(&VertexProperties::x, g));
-    dp.property("Y", boost::get(&VertexProperties::y, g));
-    dp.property("Weight", boost::get(edge_weight_t(), g));   
+    	dp.property("Label", boost::get(&VertexProperties::name, g));
+    	dp.property("Location", boost::get(&VertexProperties::location, g));
+    	dp.property("Topology", boost::get(&VertexProperties::topology, g));
+    	dp.property("X", boost::get(&VertexProperties::x, g));
+    	dp.property("Y", boost::get(&VertexProperties::y, g));
+    	dp.property("Weight", boost::get(edge_weight_t(), g));   
 	
 }	
 
 int PDB::layout_graph(GVC_t* gvc, bool t){
 
-    if(!num_edges(g)){
-    	cout << pdbname << " has no edges - skipping layout." << endl;
-    	return(0);
-    }
-    if(num_vertices(g) < 2){
-    	cout << pdbname << " has less than two vertices - skipping layout." << endl;
-    	return(0);
-    }
+    	if(!num_edges(g)){
+    		cout << pdbname << " has no edges - skipping layout." << endl;
+    		return(0);
+    	}
+    	if(num_vertices(g) < 2){
+    		cout << pdbname << " has less than two vertices - skipping layout." << endl;
+    		return(0);
+    	}
 	
 	//circle_layout();
-    //gvLayout(gvc, gv, "nop");
-    //gvFreeLayout(gvc, gv);  
-    //return(1);
+    	//gvLayout(gvc, gv, "nop");
+    	//gvFreeLayout(gvc, gv);  
+    	//return(1);
 
-    switch(layout){
-    	case 2:
-    		if (t) cout << "Calling fdp layout..." << endl;
+    	switch(layout){
+    		case 2:
+    			if (t) cout << "Calling fdp layout..." << endl;
 			//circle_layout();
-		    //gvLayout(gvc, gv, "nop");
-		    //gvFreeLayout(gvc, gv);  
-    		gvLayout (gvc, gv, "fdp");
-    		break;
-    	case 3:
-    		if (t) cout << "Calling circo layout..." << endl;
-    		gvLayout (gvc, gv, "circo");
-    		break;    	
-    	case 4:
-    		if (t) cout << "Calling neato layout..." << endl;
+		    	//gvLayout(gvc, gv, "nop");
+		    	//gvFreeLayout(gvc, gv);  
+    			gvLayout (gvc, gv, "fdp");
+    			break;
+    		case 3:
+    			if (t) cout << "Calling circo layout..." << endl;
+    			gvLayout (gvc, gv, "circo");
+    			break;    	
+    		case 4:
+    			if (t) cout << "Calling neato layout..." << endl;
 
-    		// Better results if arranged on circle first
+    			// Better results if arranged on circle first
 			circle_layout();
-		    gvLayout(gvc, gv, "nop");
-		    gvFreeLayout(gvc, gv);  
-    		gvLayout (gvc, gv, "neato");
-    		break;   
-    	case 5:
-    		if (t) cout << "Calling kamada-kawai layout..." << endl;
-    		kamada_layout();
-    	 	gvLayout(gvc, gv, "nop");
-    		break;   
-    	default:
-    		if (t) cout << "Calling sfdp layout..." << endl;
-    		gvLayout (gvc, gv, "sfdp");
-    }
-    //cout << "Layout done." << endl;
-    return(1);
+		    	gvLayout(gvc, gv, "nop");
+		    	gvFreeLayout(gvc, gv);  
+    			gvLayout (gvc, gv, "neato");
+    			break;   
+    		case 5:
+    			if (t) cout << "Calling kamada-kawai layout..." << endl;
+    			kamada_layout();
+    	 		gvLayout(gvc, gv, "nop");
+    			break;   
+    		default:
+    			if (t) cout << "Calling sfdp layout..." << endl;
+    			gvLayout (gvc, gv, "sfdp");
+    	}
+    	//cout << "Layout done." << endl;
+    	return(1);
 }
 
 void PDB::write_graph(GVC_t* gvc){
 
 	// Boost/Graphml
 	/*
-    string out = base + ".graphml";
-    cout << "Writing " << out << endl;  
-    filebuf fb;
-    fb.open (out.c_str(),ios::out);
-    std::ostream os(&fb);
-    write_graphml(os, g, dp, true);
-    fb.close();
+    	string out = base + ".graphml";
+    	cout << "Writing " << out << endl;  
+    	filebuf fb;
+    	fb.open (out.c_str(),ios::out);
+    	std::ostream os(&fb);
+    	write_graphml(os, g, dp, true);
+    	fb.close();
 	*/
 
 	string gv_out = base + ".svg";
@@ -558,8 +557,8 @@ void PDB::write_graph(GVC_t* gvc){
 	//gvRenderFilename (gvc, gv, "dot", (char*)gv_out.c_str());
 
 	/*
-    Agnode_t *v;
-    //gvRender (gvc, gv, "dot", NULL);
+    	Agnode_t *v;
+    	//gvRender (gvc, gv, "dot", NULL);
 	for(v = agfstnode(gv); v; v = agnxtnode(gv,v)){
 		char* tmp1 = agget(v,(char*)"pos");
 		printf("X value is %s\n",tmp1);
@@ -577,7 +576,7 @@ void PDB::write_subgraph(GVC_t* gvc, const string& pdb2){
 	//cout << "MCS nodes: " << agnnodes(gv) << endl;
 	//cout << "MCS gv_nodes[]: " << gv_nodes.size() << endl;
 	//cout << "MCS edges: " << agnedges(gv) << endl << endl;
-    // Delete nodes and edges not present in the MCS
+    	// Delete nodes and edges not present in the MCS
 	vector<int>::const_iterator it;
 	for(unsigned int i = 0; i < gv_nodes.size(); i++){
 		it = find(correspond.begin(),correspond.end(),i);
@@ -592,14 +591,14 @@ void PDB::write_subgraph(GVC_t* gvc, const string& pdb2){
 	//cout << "MCS gv_nodes[]: " << gv_nodes.size() << endl;
 	//cout << "MCS edges: " << agnedges(gv) << endl;
 
-    if(!agnedges(gv)){
-    	cout << "MCS has no edges - skipping layout." << endl;
-    	return;
-    }
-    if(agnnodes(gv) < 2){
-    	cout << "MCS  has less than two vertices - skipping layout." << endl;
-    	return;
-    }
+    	if(!agnedges(gv)){
+    		cout << "MCS has no edges - skipping layout." << endl;
+    		return;
+    	}
+    	if(agnnodes(gv) < 2){
+    		cout << "MCS  has less than two vertices - skipping layout." << endl;
+    		return;
+    	}
 	string gv_out = base + "-" + pdb2 + "_mcs.svg";
 	if(!output.empty()){
 		if(output.substr(output.length()-1,1) != "/"){
@@ -671,7 +670,7 @@ template <typename GraphFirst,typename GraphSecond> struct sym_callback {
 		n = m;
 		correspond1 = c1;
 		correspond2 = c2;
-    }
+    	}
 
 	template <typename CorrespondenceMapFirstToSecond, typename CorrespondenceMapSecondToFirst>
   			bool operator()(CorrespondenceMapFirstToSecond correspondence_map_1_to_2,
@@ -701,8 +700,8 @@ private:
 	int* n;
 	int* correspond1;
 	int* correspond2;	
-    const GraphFirst& m_graph1;
-    const GraphSecond& m_graph2;
+    	const GraphFirst& m_graph1;
+    	const GraphSecond& m_graph2;
 };
 
 struct simple_sort {
@@ -962,8 +961,8 @@ private:
 	map<string,int>::const_iterator ita, itb;
 	PDB* prot1;
 	PDB* prot2;	
-    const GraphFirst& m_graph1;
-    const GraphSecond& m_graph2;
+    	const GraphFirst& m_graph1;
+    	const GraphSecond& m_graph2;
 };
 
 int mcs(PDB* prot1, PDB* prot2, unsigned int max_c){
@@ -1129,10 +1128,10 @@ void usage(const char* progname, char* gvc_version){
 }	
 
 void split(string& arg, char_separator<char> sep, vector<string>& tmp){
-    tokenizer< char_separator<char> > tokens(arg, sep);
-    BOOST_FOREACH (const string& t, tokens){
-    	tmp.push_back(t);
-    }
+    	tokenizer< char_separator<char> > tokens(arg, sep);
+    	BOOST_FOREACH (const string& t, tokens){
+    		tmp.push_back(t);
+    	}
 }
 
 void tokenize_chains(const char* arg, PDB* prot){
